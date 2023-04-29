@@ -1,5 +1,6 @@
 <script>
-  	export let data;
+  	import { enhance } from '$app/forms';
+    export let data;
 
 </script>
 
@@ -10,4 +11,8 @@
     <h1>{category.name}</h1>
   {/each}
 </div>
-
+<div>
+  <form use:enhance method="post">
+    <input type="submit" class="btn-primary" value="Sign out" />
+  </form>
+</div>

@@ -1,13 +1,16 @@
 <script lang="ts">
 	import '../app.css';
 	import Menu from '$components/Menu.svelte';
+	export let data;
 </script>
 
 <svelte:head>
 	<title>Mi Tienda Virtual</title>
 </svelte:head>
 
-<Menu />
+{#if data.user}
+	<Menu />
+{/if}
 
 <main class="overflow-auto">
 	<slot />

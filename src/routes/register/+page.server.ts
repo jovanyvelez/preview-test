@@ -5,7 +5,7 @@ import { Prisma } from '@prisma/client';
 import { prisma } from '$lib/server/prisma.js';
 import { superValidate } from 'sveltekit-superforms/server';
 import { userSchema } from '$lib/zodSchemas/schemas.js';
-import { truncate } from 'fs';
+
 
 
 
@@ -30,7 +30,7 @@ const register: Action = async ({ request, locals }) => {
 			form
 		});
 	}
-
+/*
 	try {
 		const usuario = await prisma.user.findUnique({
 			where: { email: form.data.email }
@@ -50,7 +50,7 @@ const register: Action = async ({ request, locals }) => {
 	}finally{
 		prisma.$disconnect;
 	}
-
+*/
 
 	try {
 		const user = await auth.createUser({

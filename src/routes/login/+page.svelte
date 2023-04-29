@@ -1,12 +1,10 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
     import { superForm } from 'sveltekit-superforms/client';
-	import SuperDebug from 'sveltekit-superforms/client/SuperDebug.svelte';
 	export let data;
-	const { form, errors, enhance } = superForm(data.form);
-    async function changePage (){
-        goto('/register')
-    }
+
+
+	const { form, errors, enhance, tainted } = superForm(data.form, {taintedMessage:null});
 </script>
 
 
@@ -50,11 +48,4 @@
 		</div>
 	</form>
 
-	<div class="px-4 pt-8 flex flex-col w-full place-items-center">
-		<p class="m-2">--------- O ---------</p>
-		<div class="w-full flex justify-center h-15">
-			<button class="btn btn-outline btn-wide btn-warning btn- btn-xs mt-4"
-                    on:click={()=>changePage()}>Regitrarse</button>
-		</div>
-	</div>
 </div>
