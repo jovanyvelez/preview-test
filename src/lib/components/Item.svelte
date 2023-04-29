@@ -2,7 +2,7 @@
 	import ButonQuantity from '$lib/components/ButonQuantity.svelte';
 	import type { Product } from '$lib/interfaces/Product';
 	export let product: Product;
-	const nombre:string = "Sandra Paola Vergara Garzón"
+	const nombre:string = "Sandra Paola Vergara Garzón"//
 </script>
 
 <div class="flex flex-col items-center border-2 mb-4 mx-2 text-center w-72 bg-white">
