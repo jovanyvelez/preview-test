@@ -85,6 +85,7 @@ model Product {
 
 model Image {
   id        String  @id @default(uuid())
+  
   publicId  String
   secureUrl String
   product   Product @relation(fields: [productId], references: [id])

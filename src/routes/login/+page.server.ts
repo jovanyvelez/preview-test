@@ -20,7 +20,7 @@ export const load =async ( {request, locals} ) => {
     return { form };
 }
 
-const login: Action = async ( { locals, cookies, request }  ) => {
+const login: Action = async ( { locals, request }  ) => {
     const form = await superValidate(request, newUserSchema);
     const { email, password } = form.data;
     try {

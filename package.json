@@ -32,8 +32,11 @@
 	"dependencies": {
 		"@lucia-auth/adapter-prisma": "^1.0.0",
 		"@prisma/client": "^4.12.0",
+		"cloudinary": "^1.36.2",
 		"daisyui": "^2.51.5",
+		"fs-extra": "^11.1.1",
 		"lucia-auth": "^1.0.0",
+		"sharp": "^0.32.1",
 		"zod": "^3.21.4"
 	}
 }

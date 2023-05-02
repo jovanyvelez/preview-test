@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
+	
     import { superForm } from 'sveltekit-superforms/client';
 	export let data;
 
