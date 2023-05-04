@@ -1,5 +1,6 @@
 <script lang="ts">
     import Item from '$lib/components/Item.svelte';
+	import { products } from '$lib/stores/stores.js';
     export let data;
     let pags: number[] = [...Array(data.pages).keys()];
 </script>
@@ -28,6 +29,7 @@
 	</div>
 {/if}
 
+<pre>{JSON.stringify(data.products,null,2)}</pre>
 
 <style>
 	.pagination a {

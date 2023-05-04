@@ -30,7 +30,29 @@ export const productSchema = z
 		quantity: z
 		.number({required_error:'Se requiere cantidad'})
 		.nonnegative({message:'No puede ser negativa'})
-		.default(0),
+		,
+		price1: z
+		.number({required_error:'Se requiere cantidad'})
+		.nonnegative({message:'No puede ser negativa'}),
+		
+		price2: z
+		.number({required_error:'Se requiere cantidad'})
+		.nonnegative({message:'No puede ser negativa'}),
+
+		price3: z
+		.number({required_error:'Se requiere cantidad'})
+		.nonnegative({message:'No puede ser negativa'}),
+		
+		categoryId: z
+		.string({required_error:'Debes escoger una categoria'}).uuid({message:'Error'}),
+
+		imagen: z
+		.object({
+			size: z.number({required_error:"Debe incluir archivo"})
+			.gt(0,{message:'No hay archivo'})
+			.lt(3000000,{message:"menor que dos megas"}),
+			type: z.enum(["image/gif", "image/jpeg", "image/png"])
+		  })
 	})
 	/*	
         code: z.string({required_error:"Debe ingresar codigo"}).trim(),

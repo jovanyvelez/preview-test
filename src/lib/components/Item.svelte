@@ -6,7 +6,7 @@
 </script>
 
 <div class="flex flex-col items-center border-2 mb-4 mx-2 text-center w-72 bg-white">
-	<img src={ product.image[1].secureUrl } alt="article" class="w-45" />
+	<img src={ product.image[0].secureUrl } alt="article" class="w-45" />
 
 	
 		<div class="container1 no-select" style="--watermark-content: '{nombre}'">
