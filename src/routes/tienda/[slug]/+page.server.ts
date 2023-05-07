@@ -54,9 +54,15 @@ export async function load({ params }) {
 				in: categorias
 			}
 		},
-		include: {
-			price: true,
-			image: true
+		select: {
+			name:true,
+			price: {
+				select:{price1:true}
+			},
+			image: {
+				where: {name:'main'},
+				select: {secureUrl: true}
+			}
 		},
         skip:pageSize*(query.page-1),
         take: pageSize

@@ -29,7 +29,6 @@
 	</div>
 {/if}
 
-<pre>{JSON.stringify(data.products,null,2)}</pre>
 
 <style>
 	.pagination a {
