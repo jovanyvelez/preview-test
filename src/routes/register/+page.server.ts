@@ -9,8 +9,10 @@ import { userSchema } from '$lib/zodSchemas/schemas.js';
 
 
 
-export const load = async ({ locals, request }) => {
-	const session = await locals.auth.validate();
+export const load = async ({ locals, request }:{ locals?: any, request?: any }) => {
+	
+	//const session = await locals.auth.validate();
+	const session = await locals?.auth?.validate();
 	
 	if (session) throw redirect(302, '/');
 

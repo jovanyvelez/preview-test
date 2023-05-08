@@ -9,10 +9,15 @@ datasource db {
 
 model Usuario {
   id              Int             @id @default(autoincrement())
+  roleId          Int
   nombre          String
   telefono        String
   email           String          @unique
-  roleId          Int
+  tipoDoc         String
+  numDoc          String          @unique
+  Departamento    String
+  Ciudad          String
+  direccion       String
   ordenesDePedido OrdenDePedido[]
   role            Roles           @relation(fields: [roleId], references: [id])
 }
@@ -31,7 +36,7 @@ model OrdenDePedido {
   ciudadEnt        String
   departamentoEnt  String
   metodoPago       String
-  entregada        Boolean
+  estado           String
   fechaDespacho    DateTime
   cliente          Usuario                 @relation(fields: [userId], references: [id])
   productos        OrdenDePedidoProducto[]
@@ -44,7 +49,6 @@ model OrdenDePedidoProducto {
   precio          Float
   producto        Product       @relation(fields: [productoId], references: [id])
   ordenDePedido   OrdenDePedido @relation(fields: [ordenDePedidoId], references: [id])
-
   @@id([ordenDePedidoId, productoId])
 }
 

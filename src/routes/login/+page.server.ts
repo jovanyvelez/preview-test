@@ -13,9 +13,12 @@ const newUserSchema = z.object({
 })
 
 
-export const load =async ( {request, locals} ) => {
+export const load =async ( {request, locals}:{ locals?: undefined | { auth: any }, request?: any } ) => {
     const form = await superValidate(request, newUserSchema);
-    const session = await locals.auth.validate();
+    let session
+    if(locals?.auth){
+        session = await locals?.auth.validate();
+    }
     if(session) throw redirect(302,'/');
     return { form };
 }

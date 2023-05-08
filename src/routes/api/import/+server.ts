@@ -3,7 +3,7 @@ type myRequest = {
     resultado: string
 }
 
-export const POST = async ({request:request}):Promise<Response> => {
+export const POST = async ({request}:{request:any}):Promise<Response> => {
     
     const temporal = JSON.stringify(await request.json());
   

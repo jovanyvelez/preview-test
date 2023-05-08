@@ -8,7 +8,7 @@ import { uploadImage } from '$lib/server/cloudinary';
 import { ZodError, string } from 'zod';
 import { Console } from 'console';
 
-export const load = async ({ request }) => {
+export const load = async () => {
 	const categories = await prisma.category.findMany({
 		where: { padreId: null },
 
