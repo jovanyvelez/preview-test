@@ -1,54 +1,30 @@
-import { prisma } from '$lib/server/prisma';
-import { productSchema } from '$lib/zodSchemas/productSchema.js';
-import sharp from 'sharp';
-import fs from 'fs-extra';
-import { uploadImage } from '$lib/server/cloudinary';
-//import type { Action, Actions } from './$types';
-import { z } from 'zod';
-import { superValidate } from 'sveltekit-superforms/server';
-import type { Actions, Action } from '../$types.js';
+import nodemailer from 'nodemailer';
+import { EMAIL, EMAIL_PASSWORD } from '$lib/server/secrets';
 
-
-export const load = async (event) => {
-    const form = await superValidate(event, productSchema);
-    const categories = await prisma.category.findMany({
-        where:{padreId:null},
-
-        select:{
-            id:true,
-            name:true,
-            hijos:{
-                select:{
-                    id:true,
-                    name:true,
-                    hijos:{
-                        select:{
-                            id:true,
-                            name:true,
-                            hijos:true
-                        }
-                    }
-                }          
+export const load = async () => {
+	
+    try {
+        let transporter = nodemailer.createTransport({
+            host: 'smtp.zoho.com',
+            port: 465,
+            secure: true, // true for 465, false for other ports
+            auth: {
+                user: EMAIL, // generated ethereal user
+                pass: EMAIL_PASSWORD // generated ethereal password
             }
-        }
-    });
+        });
     
-      await prisma.$disconnect();
-      
-      return { form, categories }
-}
+        // send mail with defined transport object
+        let info = await transporter.sendMail({
+            from: '"Jovany Vélez" jovany.velez@zohomail.com', // sender address
+            to: 'jovany.velez@gmail.com, spvergara@gmail.com', // list of receivers
+            subject: 'Hello ✔', // Subject line
+            text: 'Hello world?', // plain text body
+            html: '<b>Hello world?</b>' // html body
+        });
+        return {enviado:true}
+    } catch (error) {
+        return {enviado:false}
+    }
 
-export const actions = {
-	create: async (event) => {
-		//const data = await request.formData();
-		//db.createTodo(cookies.get('userid'), data.get('description'));
-        const form  = await superValidate(event, productSchema);
-        return {form}
-	},
-
-	delete: async ({ cookies, request }) => {
-        const data = await request.formData();
-		//db.deleteTodo(cookies.get('userid'), data.get('id'));
-
-	}
 };
