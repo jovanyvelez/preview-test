@@ -4,5 +4,9 @@
 	import { userSchema } from '$lib/zodSchemas/schemas.js';
 
     export let data;
+    
 </script>
-<h2>{data.datos}</h2>
+
+{#if data.user}
+    <h2>Ingreso, creación de usuarios</h2>
+{/if}

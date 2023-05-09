@@ -20,7 +20,7 @@
 			<li><a href="/">Inicio</a></li>
 			<li><a href="/tienda">Tienda</a></li>
 			<li>
-				<a href="#">
+				<a href="/">
 					Parent
 					<svg
 						class="fill-current"
@@ -64,7 +64,7 @@
 			<li><a on:click={buttonToggle} href="/">Inicio</a></li>
 			<li><a on:click={buttonToggle} href="/tienda">Tienda</a></li>
 			<li>
-				<a href="#">
+				<a href="/">
 					Parent
 					<svg
 						class="fill-current"

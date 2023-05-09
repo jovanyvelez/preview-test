@@ -7,5 +7,5 @@ export const load = async ({ locals }: { locals?: undefined | { auth: any } }) =
 		return { user };
 	}
 
-	return {};
+	return { user:undefined };
 };
