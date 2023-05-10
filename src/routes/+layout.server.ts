@@ -1,11 +1,8 @@
-import { auth } from '$lib/server/lucia';
 
-export const load = async ({ locals }: { locals?: undefined | { auth: any } }) => {
-	
-    if (locals?.auth) {
-		const { user } = await locals.auth.validateUser();
-		return { user };
-	}
+import { redirect, type Actions, fail } from '@sveltejs/kit';
 
-	return { user:undefined };
+export const load = async ( {locals} ) => {
+    console.log('layouy')
+    const { user } = await locals.auth.validateUser();
+	return {user}	
 };

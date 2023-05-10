@@ -12,7 +12,10 @@
   {/each}
 </div>
 <div>
-  <form use:enhance method="post">
-    <input type="submit" class="btn-primary" value="Sign out" />
-  </form>
+
+  <div>
+    <form use:enhance method="post">
+      <input type="submit" class="btn-primary" value="Sign out" />
+    </form>
+  </div>
 </div>

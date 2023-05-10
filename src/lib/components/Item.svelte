@@ -3,22 +3,23 @@
 	import type { Product } from '$lib/interfaces/Product';
 	export let product: Product;
 	const nombre:string = "Sandra Paola Vergara Garzón"//
+	//class="container1 no-select" style="--watermark-content: '{nombre}'"
 </script>
 
 <div class="flex flex-col items-center border-2 mb-4 mx-2 text-center w-72 bg-white">
 	<img src={ product.image[0].secureUrl } alt="article" class="w-45" />
-
 	
-		<div class="container1 no-select" style="--watermark-content: '{nombre}'">
-			<p class="">{product.name}</p>
-			<p class=""><strong>${product.price[0].price1}</strong></p>
-			<p>disponible: {product.quantity}</p>
-		</div>
+	
+	<div >
+		<p class="">{product.name}</p>
+		<p class=""><strong>${product.price[0].price1}</strong></p>
+		<p>disponible: {product.quantity}</p>
+	</div>
 	
 	{#key product}
 		<ButonQuantity product = {{...product, qtyBuy:0}} mostrarCosto={false}/>
 	{/key}
-</div>
+	</div>
 
 <style>
 	.container1 {

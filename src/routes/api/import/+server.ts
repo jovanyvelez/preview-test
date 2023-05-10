@@ -1,7 +1,3 @@
-type myRequest = {
-    success: string,
-    resultado: string
-}
 
 export const POST = async ({request}:{request:any}):Promise<Response> => {
     

@@ -1,6 +1,7 @@
 <script lang="ts">
+
     import Item from '$lib/components/Item.svelte';
-	import { products } from '$lib/stores/stores.js';
+	//import { products } from '$lib/stores/stores.js';
     export let data;
     let pags: number[] = [...Array(data.pages).keys()];
 </script>
@@ -8,8 +9,8 @@
 
 {#if data.products.length > 0}
 <div class="flex flex-wrap justify-center">
-    {#each data.products as product}
-        <Item {product} />
+    {#each data.products as product (product.id) }
+		<Item {product} />
     {/each}
 </div>
 {:else}

@@ -2,30 +2,36 @@ import {fail, redirect} from '@sveltejs/kit';
 import { auth } from '$lib/server/lucia';
 
 import type { Action, Actions } from './$types';
-import { z } from 'zod';
-import { superValidate } from 'sveltekit-superforms/server';
+
 import { LuciaError } from 'lucia-auth';
 
 
-const newUserSchema = z.object({
-    email: z.string().email().min(5),
-    password: z.string().min(4)
-})
 
-
-export const load =async ( {request, locals}:{ locals?: undefined | { auth: any }, request?: any } ) => {
-    const form = await superValidate(request, newUserSchema);
-    let session
-    if(locals?.auth){
-        session = await locals?.auth.validate();
+export const load =async ( {locals} ) => {
+    
+    console.log('En Load')
+    const session = await locals.auth.validate();
+    
+    if(session) {
+        throw redirect(302,'/');
+    }else {
+        return {  };
     }
-    if(session) throw redirect(302,'/');
-    return { form };
 }
 
-const login: Action = async ( { locals, request }  ) => {
-    const form = await superValidate(request, newUserSchema);
-    const { email, password } = form.data;
+const login: Action = async ( { request, locals }  ) => {
+    const session = await locals.auth.validate();
+    if(session) return{}
+    console.log('en action')
+    const form = await request.formData()
+    const email = form.get('email');
+    const password = form.get('password');
+    if (!email || !password || typeof email !== 'string' || typeof password !== 'string') {
+        return fail(400, {
+            message: 'Invalid input'
+        });
+    }
+
     try {
         const key = await auth.useKey('username', email, password);
         const session = await auth.createSession(key.userId);
@@ -45,7 +51,8 @@ const login: Action = async ( { locals, request }  ) => {
             message: 'Unknown error occurred'
         });
     }
-    return { form, follow: true };
+    console.log('Action retorna true')
+    return {}
 }
 
 export const actions: Actions = { login };

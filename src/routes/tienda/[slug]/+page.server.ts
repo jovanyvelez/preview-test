@@ -55,6 +55,7 @@ export async function load({ params }) {
 			}
 		},
 		select: {
+			id:true,
 			name:true,
 			price: {
 				select:{price1:true}

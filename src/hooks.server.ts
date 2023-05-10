@@ -2,10 +2,9 @@ import { auth } from '$lib/server/lucia';
 import type { Handle } from '@sveltejs/kit';
 
 export const handle: Handle = async ({ event, resolve }) => {
-	
+	event.locals.auth = auth.handleRequest(event);
 	const response = await resolve(event);
-
-	// Apply CORS header for API routes
+		// Apply CORS header for API routes
 	if (event.url.pathname.startsWith('/api/import')) {
 		// Required for CORS to work
 		/**
@@ -28,7 +27,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 		return response;
 	}
 
-	event.locals.auth = auth.handleRequest(event);
 	return await resolve(event)
+
 
 };
