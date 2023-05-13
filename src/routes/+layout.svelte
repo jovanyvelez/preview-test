@@ -24,3 +24,4 @@
 		@apply text-2xl font-semibold w-full mb-2;
 	}
 </style>
+

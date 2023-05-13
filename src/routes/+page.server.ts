@@ -3,8 +3,8 @@ import { prisma } from '$lib/server/prisma';
 
 import { auth } from '$lib/server/lucia';
 
+
 export const load = async ( {locals}  ) => {
-	console.log('entro en el load principal')
 	const { user } = await locals.auth.validateUser();
 	if (!user) throw redirect(303, '/login');
 
@@ -14,7 +14,7 @@ export const load = async ( {locals}  ) => {
 	});
 	
 	await prisma.$disconnect();
-	return { main: rootCategories,};
+	return { main: rootCategories};
 };
 
 export const actions: Actions = {

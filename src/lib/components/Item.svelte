@@ -2,7 +2,7 @@
 	import ButonQuantity from '$lib/components/ButonQuantity.svelte';
 	import type { Product } from '$lib/interfaces/Product';
 	export let product: Product;
-	const nombre:string = "Sandra Paola Vergara Garzón"//
+	export let nombre:string 
 	//class="container1 no-select" style="--watermark-content: '{nombre}'"
 </script>
 
@@ -10,7 +10,7 @@
 	<img src={ product.image[0].secureUrl } alt="article" class="w-45" />
 	
 	
-	<div >
+	<div class="container1 no-select" style="--watermark-content: '{nombre}'">
 		<p class="">{product.name}</p>
 		<p class=""><strong>${product.price[0].price1}</strong></p>
 		<p>disponible: {product.quantity}</p>

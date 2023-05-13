@@ -8,22 +8,22 @@ import { LuciaError } from 'lucia-auth';
 
 
 export const load =async ( {locals} ) => {
-    
-    console.log('En Load')
     const session = await locals.auth.validate();
-    
-    if(session) {
-        throw redirect(302,'/');
-    }else {
-        return {  };
-    }
+    if(session) throw redirect(302,'/');
+    return {}
 }
 
 const login: Action = async ( { request, locals }  ) => {
+    
     const session = await locals.auth.validate();
+    
     if(session) return{}
-    console.log('en action')
-    const form = await request.formData()
+    let form;
+    try {
+        form = await request.formData()
+    } catch (error) {
+        return fail(400,{message:"error desconocido"})
+    }
     const email = form.get('email');
     const password = form.get('password');
     if (!email || !password || typeof email !== 'string' || typeof password !== 'string') {
@@ -41,6 +41,7 @@ const login: Action = async ( { request, locals }  ) => {
             error instanceof LuciaError &&
             (error.message === 'AUTH_INVALID_KEY_ID' || error.message === 'AUTH_INVALID_PASSWORD')
         ) {
+            console.log('DATOS INCORRECTOS');
             return fail(400, {
                 message: 'Incorrect username or password.'
             });
@@ -51,7 +52,6 @@ const login: Action = async ( { request, locals }  ) => {
             message: 'Unknown error occurred'
         });
     }
-    console.log('Action retorna true')
     return {}
 }
 

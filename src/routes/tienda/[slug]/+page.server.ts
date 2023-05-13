@@ -20,7 +20,7 @@ async function getSubcategoryIds(categoryId: string): Promise<string[]> {
 
 
 //Funcion principal Ojo
-export async function load({ params }) {
+export async function load({ params, locals }) {
 	
     type mQuery = {
 		param: string,
@@ -78,10 +78,30 @@ export async function load({ params }) {
 		},
 	});
 
+	const { user } = await locals.auth.validateUser();
+	let cliente;
+    if(user){
+        cliente = await prisma.usuario.findMany({
+            where:{email: user.email},
+            select: {
+                nombre          :true,
+                telefono        :true,
+                email           :true,
+                tipoDoc         :true,
+                numDoc          :true,
+                Departamento    :true,
+                Ciudad          :true,
+                direccion       :true,
+                role            : {select:{name:true}}
+            }
+        })
+    }
 
     prisma.$disconnect();
 	return {products,
             query, 
             page: query.page,
-            pages: Math.ceil(count/pageSize)};
+            pages: Math.ceil(count/pageSize),
+			cliente
+		};
 }

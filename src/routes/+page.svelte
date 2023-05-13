@@ -1,7 +1,6 @@
 <script>
   	import { enhance } from '$app/forms';
     export let data;
-
 </script>
 
 <h1 class="text-center text-3xl font-bold my-2">Visita Nuestra tienda</h1>
@@ -19,3 +18,5 @@
     </form>
   </div>
 </div>
+
+

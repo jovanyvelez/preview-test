@@ -1,10 +1,9 @@
 import { writable } from 'svelte/store';
-import type {Product, ProductStore, SearchStoreModel, StoreSections}  from '$lib/interfaces/Product';
+import {client, type Product, type ProductStore, type SearchStoreModel, type StoreSections, type client}  from '$lib/interfaces/Product';
 import { browser } from '$app/environment';
 
 
 export const products = writable<Product[]>( [] );
-
 
 
 const initCart: ProductStore[] = ( browser && JSON.parse( localStorage.getItem( "cart" ) ) ) || [];

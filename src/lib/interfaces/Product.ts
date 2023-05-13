@@ -1,3 +1,4 @@
+import type { string } from "zod";
 
 interface Price{
   price1     : number,
@@ -47,3 +48,16 @@ export interface Product {
     search: string
   }
   
+  export interface client {
+    nombre          :string,
+    telefono        :string,
+    email           :string,
+    tipoDoc         :string,
+    numDoc          :string,
+    Departamento    :string,
+    Ciudad          :string,
+    direccion       :string,
+    role:{
+      name:string
+    }
+  }
