@@ -5,7 +5,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 	event.locals.auth = auth.handleRequest(event);
 	const response = await resolve(event);
 		// Apply CORS header for API routes
-	if (event.url.pathname.startsWith('/adm/api/import')) {
+	if (event.url.pathname.startsWith('api/import')) {
 		// Required for CORS to work
 		/**
 		 * Cuando se realiza una solicitud HTTP con un método o un encabezado personalizado
@@ -26,7 +26,14 @@ export const handle: Handle = async ({ event, resolve }) => {
 		response.headers.append('Access-Control-Allow-Origin', `*`);
 		return response;
 	}
+	if (event.url.pathname.startsWith('api/department')) {
+		return
+	}
 
+	if (event.url.pathname.startsWith('api/ciudad')) {
+		return
+	}
+	
 	return await resolve(event)
 
 

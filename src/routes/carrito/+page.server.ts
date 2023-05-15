@@ -13,7 +13,7 @@ export const actions: Actions = {
 	default: async ({ request, locals }) => {
 
 		const session = await locals.auth.validate();
-		if (session) throw redirect(302, '/');
+		if (session) throw redirect(302, '/tienda/address');
 
 		throw redirect(307, '/login');
 		
