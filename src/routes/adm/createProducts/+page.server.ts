@@ -6,7 +6,7 @@ import fs from 'fs-extra';
 import { uploadImage } from '$lib/server/cloudinary';
 //import type { Action, Actions } from './$types';
 import { ZodError, string } from 'zod';
-import { Console } from 'console';
+
 
 export const load = async () => {
 	const categories = await prisma.category.findMany({

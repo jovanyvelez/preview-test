@@ -1,16 +1,27 @@
 <script>
 	// @ts-nocheck
-
+	import { getContext } from 'svelte';
+	import { cart } from '$lib/stores/stores';
+    // Retrieve user store from context
+    const user = getContext('user');
 	import { onMount } from 'svelte';
+
+	let address1;
+	let address2;
+	let address3;
+	let address4;
+	let directionNote;
+
+	export let data;
+	
 
 	let departamento = '';
 	let departamentos = [];
 	let municipio = '';
 	let municipios = [];
-	let direccion = '';
+	$:direccion = address1+address2+address3+address4;
 
 	async function handleSubmit(event) {
-		console.log(departamento);
 		const response = await fetch(`/api/ciudad?departamento=${departamento}`);
 		const data = await response.json();
 		municipios = data;
@@ -23,7 +34,7 @@
 	});
 </script>
 
-<form on:submit>
+<form method="post">
 	<h1 class="text-center">Direccion de Envío</h1>
 
 	<div class="flex justify flex-col ml-5">
@@ -78,9 +89,9 @@
 					</select>
 
 					<input type="text" class="input input-warning input-xs w-2/12 mr-1" />
-					<span>#</span>
+					<span class="font-bold">#</span>
 					<input type="text" class="input input-warning w-2/12 input-xs ml-1 mr-2" />
-					<span>-</span>
+					<span class="font-bold">-</span>
 					<input type="text" class="input input-warning w-2/12 input-xs ml-1 mr-2" />
 				</div>
 
@@ -91,5 +102,7 @@
 				/>
 			</div>
 			{/if}
+			<button class="btn btn-warning btn-sm mr-5">Finalizar compra </button>
 	</div>
 </form>
+

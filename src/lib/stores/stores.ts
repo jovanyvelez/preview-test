@@ -1,5 +1,5 @@
 import { writable } from 'svelte/store';
-import {client, type Product, type ProductStore, type SearchStoreModel, type StoreSections, type client}  from '$lib/interfaces/Product';
+import {type Product, type ProductStore, type SearchStoreModel, type StoreSections, type client}  from '$lib/interfaces/Product';
 import { browser } from '$app/environment';
 
 
