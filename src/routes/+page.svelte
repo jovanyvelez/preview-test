@@ -3,18 +3,41 @@
 	import Category from '$lib/components/Category.svelte';
     import Item from '$lib/components/Item.svelte';
     export let data;
+    const {elResultado} = data;
 </script>
 
 <h1 class="text-center text-3xl font-bold my-20">Bienvenido a Nuestra Tienda</h1>
 
 
-{#if data.main.length > 0}
+{#if elResultado.length > 0}
+
+
 <div class="flex flex-wrap justify-center">
-  {#each data.main as category (category.id) }
-    <h1 class="my-10 text-center text-yellow-400">{category.categoria}</h1>
+  {#each elResultado as category (category.rootid) }
+    <h1 class="my-10 text-center text-yellow-400">{category.name}</h1>
+    {#each category.products as product (product.id) }
+
+      <div class="card glass w-64 bg-base-100 shadow-xl mx-2 mt-2">
+        <figure><img src={ product.image[0].secureUrl } alt="article" class="" /></figure>
+        <div class="card-body">
+          <h2 class="card-title">{product.name.trim()}</h2>
+        </div>
+      </div>
+      
+    {/each}
+    
+  {/each}
+</div>
+{/if}
+
+
+
+<!--div class="flex flex-wrap justify-center">
+  {#each data.elResultado as category (category.id) }
+    <h1 class="my-10 text-center text-yellow-400">{category.name}</h1>
     {#each category.productos as product (product.id) }
 
-    <div class="card w-64 bg-base-100 shadow-xl mx-2 mt-2">
+    <div class="card glass w-64 bg-base-100 shadow-xl mx-2 mt-2">
       <figure><img src={ product.image[0].secureUrl } alt="article" class="" /></figure>
       <div class="card-body">
         <h2 class="card-title">{product.name.trim()}</h2>
@@ -26,11 +49,12 @@
   {/each}
 
     
-</div>
+</div-->
+<!--
 {:else}
 	<h1 class="text-xl sm:text-7xl ">Ups, no hay productos aquí</h1>
 {/if}
-
+-->
 
 <div>
 

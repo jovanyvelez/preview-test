@@ -3,117 +3,81 @@ import { prisma } from '$lib/server/prisma';
 
 import { auth } from '$lib/server/lucia';
 
-
-// Función recursiva para obtener los nombres de los productos
-function obtenerNombresProductos(arr) {
-	const nombres = [];
-  
-	arr.forEach(obj => {
-	  if (obj.product && obj.product.length > 0) {
-		obj.product.forEach(producto => {
-		  nombres.push(producto);
-		});
-	  }
-  
-	  if (obj.hijos && obj.hijos.length > 0) {
-		const hijosNombres = obtenerNombresProductos(obj.hijos);
-		nombres.push(...hijosNombres);
-	  }
-	});
-	if(nombres){
-		return nombres
-	}
-	return undefined;
-  }
-
-  
-  function obtenerNumeroAleatorio(min, max) {
-	return Math.floor(Math.random() * (max - min + 1)) + min;
-  }
-
-
 export const load = async ({ locals }) => {
 	const { user } = await locals.auth.validateUser();
 	if (!user) throw redirect(303, '/login');
 
-	const rootCategories = await prisma.category.findMany({
+	const result = await prisma.$queryRaw`
+    WITH RECURSIVE CategoryHierarchy AS (
+        SELECT "id", "name", "padreId", "id" AS rootId, 0 AS level
+        FROM "Category"
+        WHERE "padreId" IS NULL
+        
+        UNION ALL
+        
+        SELECT c."id", c."name", c."padreId", ch.rootId, ch.level + 1
+        FROM "Category" c
+        INNER JOIN CategoryHierarchy ch ON c."padreId" = ch."id"
+    )
+    SELECT 
+        ch."id", 
+        ch."name", 
+        ch."padreId",
+        ch.level,
+        (SELECT "name" FROM "Category" WHERE "id" = ch.rootId) AS rootName,
+		(SELECT "id" FROM "Category" WHERE "id" = ch.rootId) AS rootid
+    FROM CategoryHierarchy ch
+    ORDER BY ch.rootId, ch.level;
+`;
 
-		where: { padreId: null },
-		select:{
-			id:true,
-			padre:true,
-			name:true,
-			
-			hijos: {
-				select:{
-					padre:true,
-					name:true,
-					hijos:{
-						select:{
-							product:{
-								select:{
-									id:true,
-									name:true,
-									image:true
-								}
-							}
-						}
-					},
-					product:{
-						select:{
-							id:true,
-							name:true,
-							image:true
-						}
-					}
+	const categoriesAndDescendants = result.reduce((result, objeto) => {
+		const existingItem = result.find((item) => item.rootid === objeto.rootid);
+		if (existingItem) {
+			existingItem.ids.push(objeto.id);
+		} else {
+			result.push({ rootid: objeto.rootid, name: objeto.name, ids: [objeto.id] });
+		}
+		return result;
+	}, []);
+
+	const elResultado = await Promise.all(
+		categoriesAndDescendants.map(async (obj) => {
+			const quantity = await prisma.Product.count({
+				where: {
+					categoryId: { in: obj.ids }
 				}
-			},
+			});
 
-			product:{
-				select:{
-					id:true,
-					name:true,
-					image:true
+			let skip;
+			let take = 4;
+
+			if (quantity < 5) {
+				skip = 0;
+			} else {
+				skip = Math.floor(Math.random() * quantity);
+				if (skip > quantity - 4) {
+					skip = quantity - 4;
 				}
 			}
-		}
-	});
 
+			let values;
 
-	const categorias = rootCategories.map(e =>{
-		const tmp = obtenerNombresProductos([e]);
-		let nuevoArreglo;
-		if(tmp.length > 4){
-			nuevoArreglo = Array.from({ length: 4 }, () => {
-				const indice = obtenerNumeroAleatorio(0, tmp.length - 1);
-				return tmp.splice(indice, 1)[0];
+			values = await prisma.Product.findMany({
+				take,
+				skip,
+				where: {
+					categoryId: { in: obj.ids }
+				},
+				include: { image: true }
 			});
-		}else{
-			return tmp;				
-		}
-		return nuevoArreglo;
-	})
 
-	const categories = rootCategories.map(e =>{
-		const tmp = obtenerNombresProductos([e]);
-		let nuevoArreglo;
-		if(tmp.length > 4){
-			nuevoArreglo = Array.from({ length: 4 }, () => {
-				const indice = obtenerNumeroAleatorio(0, tmp.length - 1);
-				return tmp.splice(indice, 1)[0];
-			});
-		}else{
-			nuevoArreglo = tmp;			
-		}
-		//console.log(e);
-		return {categoria:e.name, id:e.id, productos:nuevoArreglo};
+			obj['products'] = values;
+			return obj;
+		})
+	);
 
-	})
-	
-	//console.log(categories)
-
-	await prisma.$disconnect();
-	return { main: categories };
+	prisma.$disconnect();
+	return { elResultado };
 };
 
 export const actions: Actions = {

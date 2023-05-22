@@ -67,6 +67,7 @@ const register: Action = async ({ request, locals }) => {
 		});
 		const session = await auth.createSession(user.userId);
 		locals.auth.setSession(session);
+		console.log("usuario creado")
 	} catch (error) {
 		if (
 			error instanceof Prisma.PrismaClientKnownRequestError &&
