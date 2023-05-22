@@ -14,7 +14,7 @@
 	<title>Mi Tienda Virtual</title>
 </svelte:head>
 
-{#if data.user}>
+{#if data.user}
 		<Menu />
 {/if}
 
