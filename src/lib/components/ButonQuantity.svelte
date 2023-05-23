@@ -24,7 +24,8 @@
 			$cart = [...$cart, item];
 			show = false;
 		} else {
-			if($cart[index].qtyBuy==$cart[index].quantity) {
+			console.log($cart[index].qtyBuy)
+			if($cart[index].qtyBuy===$cart[index].quantity) {
 				disabled = true; 
 				return
 			} //No permite comprar mas de lo que tenemos
