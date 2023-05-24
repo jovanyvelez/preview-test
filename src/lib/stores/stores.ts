@@ -5,6 +5,8 @@ import { browser } from '$app/environment';
 
 export const products = writable<Product[]>( [] );
 
+export const busqueda = writable([]);
+
 
 const initCart: ProductStore[] = ( browser && JSON.parse( localStorage.getItem( "cart" ) ) ) || [];
 

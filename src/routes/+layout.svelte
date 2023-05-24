@@ -8,15 +8,22 @@
 	const testUser = writable();
 	$: testUser.set(data.user);
 	setContext('user',testUser)
+
+	
+
 </script>
 
 <svelte:head>
 	<title>Mi Tienda Virtual</title>
 </svelte:head>
 
+
+
+
 {#if data.user}
 		<Menu />
 {/if}
+
 
 <main class="overflow-auto">
 	<slot />
