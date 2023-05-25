@@ -74,6 +74,7 @@ export async function load({ params, locals }) {
 			id: true,
 			name: true,
 			quantity: true,
+			categoryId:true,
 			price: {
 				select: { price1: true }
 			},
@@ -81,7 +82,7 @@ export async function load({ params, locals }) {
 			image: {
 				where: { name: 'main' },
 				select: { secureUrl: true }
-			}
+			},
 		},
 		skip: pageSize * (query.page - 1),
 		take: pageSize

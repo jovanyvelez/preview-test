@@ -20,6 +20,7 @@ export const load = async ( {locals} ) => {
                     Departament:true,
                     city:true,
                     address:true,
+                    zone:true,
                     role:{
                         select:{
                             name:true
@@ -27,7 +28,7 @@ export const load = async ( {locals} ) => {
                     }
                 }
             })
-            //console.log(cliente)
+
             return {user:cliente}
         }
     

@@ -40,6 +40,8 @@ model OrdenDePedido {
   metodoPago       String
   estado           String
   fechaDespacho    DateTime
+  createdAt        DateTime                @default(now())
+  updatedAt        DateTime                @updatedAt
   cliente          Usuario                 @relation(fields: [userId], references: [id])
   productos        OrdenDePedidoProducto[]
 }
@@ -49,6 +51,7 @@ model OrdenDePedidoProducto {
   productoId      String
   cantidad        Int
   precio          Float
+  ccosto          String
   ordenDePedido   OrdenDePedido @relation(fields: [ordenDePedidoId], references: [id])
   producto        Product       @relation(fields: [productoId], references: [id])
 
@@ -56,16 +59,16 @@ model OrdenDePedidoProducto {
 }
 
 model Category {
-  id        String     @id @default(uuid())
-  name      String     @unique
+  id        String                 @id @default(uuid())
+  name      String                 @unique
   padreId   String?
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-  padre     Category?  @relation("PadreHijos", fields: [padreId], references: [id])
-  hijos     Category[] @relation("PadreHijos")
+  createdAt DateTime               @default(now())
+  updatedAt DateTime               @updatedAt
+  padre     Category?              @relation("PadreHijos", fields: [padreId], references: [id])
+  hijos     Category[]             @relation("PadreHijos")
   product   Product[]
   ccosto    CcostoZoneCategories[]
-  zones     Zones[]    @relation("CategoriasZonas")
+  zones     Zones[]                @relation("CategoriasZonas")
 }
 
 model Product {
@@ -112,18 +115,18 @@ model Price {
   product   Product  @relation(fields: [productId], references: [id])
 }
 
-model CcostoZoneCategories{
-    id            Int      @id @default(autoincrement())
-    zone          String
-    ccosto        String   @unique
-    categoryId    String
-    category      Category  @relation(fields: [categoryId], references: [id])
+model CcostoZoneCategories {
+  id         Int      @id @default(autoincrement())
+  zone       String
+  ccosto     String   @unique
+  categoryId String
+  category   Category @relation(fields: [categoryId], references: [id])
 }
 
 model Zones {
-  id Int @id @default(autoincrement())
-  name String
-  code Int
+  id         Int        @id @default(autoincrement())
+  name       String
+  code       Int
   categorias Category[] @relation("CategoriasZonas")
 }
 
