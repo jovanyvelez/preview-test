@@ -12,14 +12,14 @@ export const load = async ( {locals} ) => {
                 },
                 select:{
                     id:true,
-                    nombre: true,
-                    telefono: true,
+                    name: true,
+                    phone: true,
                     email:true,
-                    tipoDoc:true,
+                    docType:true,
                     numDoc:true,
-                    Departamento:true,
-                    Ciudad:true,
-                    direccion:true,
+                    Departament:true,
+                    city:true,
+                    address:true,
                     role:{
                         select:{
                             name:true
@@ -27,6 +27,7 @@ export const load = async ( {locals} ) => {
                     }
                 }
             })
+            //console.log(cliente)
             return {user:cliente}
         }
     

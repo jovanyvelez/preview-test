@@ -57,6 +57,7 @@ export interface Product {
     Departamento    :string,
     Ciudad          :string,
     direccion       :string,
+    bussinessUnit   :string,
     role:{
       name:string
     }

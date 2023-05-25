@@ -1,33 +1,35 @@
 import { prisma } from '$lib/server/prisma';
 
 export async function load({ params, locals }) {
+
 	type mQuery = {
 		param: string;
 		page: number;
 	};
 
 	let query: mQuery;
+
 	let continuar = true;
 	try {
 		query = JSON.parse(params.slug);
 	} catch (error) {
-		if (params.slug === 'busqueda') continuar = false;
 		query = { param: params.slug, page: 1 };
 	}
+
 	const { user } = await locals.auth.validateUser();
 	let cliente;
 	if (user) {
 		cliente = await prisma.usuario.findMany({
 			where: { email: user.email },
 			select: {
-				nombre: true,
-				telefono: true,
+				name: true,
+				phone: true,
 				email: true,
-				tipoDoc: true,
+				docType: true,
 				numDoc: true,
-				Departamento: true,
-				Ciudad: true,
-				direccion: true,
+				Departament: true,
+				city: true,
+				address: true,
 				role: { select: { name: true } }
 			}
 		});
@@ -55,6 +57,7 @@ export async function load({ params, locals }) {
     FROM CategoryHierarchy ch
     ORDER BY ch.rootId, ch.level`;
 	let categorias;
+
 	if (resultado.length === 0) {
 		categorias = [params.slug];
 	} else {

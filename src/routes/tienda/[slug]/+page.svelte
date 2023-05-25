@@ -1,71 +1,76 @@
 <script lang="ts">
 
-    import Item from '$lib/components/Item.svelte';
-	import { onDestroy } from 'svelte';
-    export let data;
+	import Item from '$lib/components/Item.svelte';
+
+	export let data;
 
 	let products = [];
-	let paginacion = true
+	let datos = [];
+	let paginacion = true;
 
-	if(data.products){
-		products = data.products
-	}
-	
-    let pags: number[] = [...Array(data.pages).keys()];
+	let pags: number[] = [...Array(data.pages).keys()];
 
 	let texto = '';
-	//$busqueda = [];
 
-	function handleKeyDown(event) {
-    if (event.key === 'Enter') {
-      handleClick();
-    }
-  }
+	const handleKeyDown = (event) => {
+		if (event.key === 'Enter') {
+			handleClick();
+		}
+	}
+
 	const handleClick = async () => {
 		const textos = `'/api/queries?searchTerm='${texto}'`;
-		//alert(textos)
 		const response = await fetch(`/api/queries?searchTerm=${texto}`);
-		//const response = await fetch('http://localhost:5173/api/queries?searchTerm=Pan')
 		products = await response.json();
 		paginacion = false;
 	};
 
-	onDestroy(()=>paginacion=true)
+	$: if (paginacion) {
+		datos = data.products;
+	} else {
+		datos = products;
+	}
 
 </script>
 
 <div class="flex flex-wrap justify-center mb-3">
-
-	<div class="input-group  w-4/12">
-		<input type="text" placeholder="Buscar…" class="input input-bordered" bind:value={texto} on:keydown={handleKeyDown} />
+	<div class="input-group w-4/12">
+		<input
+			type="text"
+			placeholder="Buscar…"
+			class="input input-bordered"
+			bind:value={texto}
+			on:keydown={handleKeyDown}
+		/>
 		<button class="btn btn-square" on:click={() => handleClick()}>
 			<svg
-			xmlns="http://www.w3.org/2000/svg"
-			class="h-6 w-6"
-			fill="none"
-			viewBox="0 0 24 24"
-			stroke="currentColor"
-			><path
-			stroke-linecap="round"
-			stroke-linejoin="round"
-			stroke-width="2"
-			d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-			/></svg
+				xmlns="http://www.w3.org/2000/svg"
+				class="h-6 w-6"
+				fill="none"
+				viewBox="0 0 24 24"
+				stroke="currentColor"
+				><path
+					stroke-linecap="round"
+					stroke-linejoin="round"
+					stroke-width="2"
+					d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+				/></svg
 			>
 		</button>
 	</div>
 </div>
 
-
-{#if products}
-<div class="flex flex-wrap justify-center">
-    {#each products as product (product.id) }
-		<Item {product} nombre={data.cliente[0].nombre} />
-    {/each}
-</div>
+{#if datos.length > 0}
+	<div class="flex flex-wrap justify-center">
+		{#each datos as product (product.id)}
+			<Item {product} nombre={data.cliente[0].name} />
+		{/each}
+	</div>
 {:else}
-	<h1 class="text-xl sm:text-7xl ">Ups, no hay productos aquí</h1>
+	<h1 class="text-xl sm:text-7xl">Ups, no hay productos aquí</h1>
 {/if}
+
+
 
 {#if pags.length > 1 && paginacion}
 	<div class="flex justify-center pagination">
@@ -79,7 +84,6 @@
 		{/each}
 	</div>
 {/if}
-
 
 <style>
 	.pagination a {
