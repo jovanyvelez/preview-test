@@ -102,7 +102,7 @@
 				/>
 			</div>
 			{/if}
-			<button class="btn btn-warning btn-sm mr-5">Finalizar compra </button>
+			<button class="btn btn-warning btn-sm mr-5" on:click={()=>alert("vamos")}>Finalizar compra </button>
 	</div>
 </form>
 

@@ -64,6 +64,8 @@ model Category {
   padre     Category?  @relation("PadreHijos", fields: [padreId], references: [id])
   hijos     Category[] @relation("PadreHijos")
   product   Product[]
+  ccosto    CcostoZoneCategories[]
+  zones     Zones[]    @relation("CategoriasZonas")
 }
 
 model Product {
@@ -113,8 +115,16 @@ model Price {
 model CcostoZoneCategories{
     id            Int      @id @default(autoincrement())
     zone          String
-    categorie     String
     ccosto        String   @unique
+    categoryId    String
+    category      Category  @relation(fields: [categoryId], references: [id])
+}
+
+model Zones {
+  id Int @id @default(autoincrement())
+  name String
+  code Int
+  categorias Category[] @relation("CategoriasZonas")
 }
 
 model AuthUser {
